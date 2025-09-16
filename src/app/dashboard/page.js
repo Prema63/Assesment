@@ -70,7 +70,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div 
+    <div
       className="w-screen h-screen overflow-hidden bg-gray-50 flex flex-col"
       style={{
         scrollbarWidth: 'none',
@@ -87,7 +87,7 @@ const Dashboard = () => {
           scrollbar-width: none;
         }
       `}</style>
-      
+
       {/* Header - Fixed height */}
       <div className="flex-shrink-0 px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 lg:pt-6 pb-2 sm:pb-3 lg:pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
@@ -195,18 +195,24 @@ const Dashboard = () => {
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center min-w-0 flex-1">
-                      <div className={w-2 h-2 sm:w-3 sm:h-3 ${item.color} rounded-full mr-2 flex-shrink-0}></div>
+                      <div
+                        className={`w-2 h-2 sm:w-3 sm:h-3 ${item.color} rounded-full mr-2 flex-shrink-0`}
+                      ></div>
                       <span className="text-xs sm:text-sm text-gray-600 truncate">{item.label}</span>
                     </div>
                     <div className="flex items-center flex-shrink-0">
                       <span className="text-xs sm:text-sm font-semibold">{item.value}</span>
-                      <span className={text-xs ml-1 ${item.trend === 'up' ? 'text-green-500' : 'text-red-500'}}>
-                        {item.trend === 'up' ? '↑' : '↓'}
+                      <span
+                        className={`text-xs ml-1 ${item.trend === "up" ? "text-green-500" : "text-red-500"
+                          }`}
+                      >
+                        {item.trend === "up" ? "↑" : "↓"}
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
 
@@ -285,7 +291,9 @@ const Dashboard = () => {
                           </td>
                           <td className="py-3 sm:py-4">
                             <div className="flex items-center gap-1 sm:gap-2">
-                              <div className={w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${car.statusColor}}></div>
+                              <div
+                                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${car.statusColor}`}
+                              ></div>
                               <span className="text-xs sm:text-sm">{car.status}</span>
                             </div>
                           </td>
@@ -299,6 +307,7 @@ const Dashboard = () => {
                       ))}
                     </tbody>
                   </table>
+
                 </div>
               </div>
             </div>
@@ -338,7 +347,7 @@ const Dashboard = () => {
                       axisLine={false}
                       tickLine={false}
                       tick={{ fontSize: windowWidth < 640 ? 10 : 12, fill: "#6b7280" }}
-                      tickFormatter={(value) => $${value / 1000}k}
+                      tickFormatter={(value) => `${value / 1000}`}
                     />
                     <Line
                       type="monotone"
@@ -363,7 +372,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
