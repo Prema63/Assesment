@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, Bell, Filter, ChevronDown, User } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
@@ -8,6 +8,22 @@ const Dashboard = () => {
   const [selectedDate, setSelectedDate] = useState("Nov 20, 2022");
   const [selectedTime, setSelectedTime] = useState("10 AM");
   const [selectedCar, setSelectedCar] = useState("Car number");
+  const [windowWidth, setWindowWidth] = useState(1024); // Default width
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setWindowWidth(window.innerWidth);
+
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Don't render until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return null;
+  }
 
   // Sample data for the chart
   const earningsData = [
@@ -54,23 +70,24 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-gray-50 flex flex-col"
-         style={{
-           scrollbarWidth: 'none', /* Firefox */
-           msOverflowStyle: 'none', /* Internet Explorer 10+ */
-         }}>
+    <div 
+      className="w-screen h-screen overflow-hidden bg-gray-50 flex flex-col"
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
+    >
       <style jsx>{`
-        /* Hide scrollbar for Chrome, Safari and Opera */
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
         
-        /* Hide scrollbar for IE, Edge and Firefox */
         .hide-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
+      
       {/* Header - Fixed height */}
       <div className="flex-shrink-0 px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 lg:pt-6 pb-2 sm:pb-3 lg:pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
@@ -146,7 +163,7 @@ const Dashboard = () => {
                 <h3 className="text-xs sm:text-sm font-medium text-gray-600">Hire vs Cancel</h3>
                 <span className="text-xs text-gray-500">Today</span>
               </div>
-              
+
               <div className="relative flex justify-center mb-4 sm:mb-6">
                 <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32">
                   <ResponsiveContainer width="100%" height="100%">
@@ -178,12 +195,12 @@ const Dashboard = () => {
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center min-w-0 flex-1">
-                      <div className={`w-2 h-2 sm:w-3 sm:h-3 ${item.color} rounded-full mr-2 flex-shrink-0`}></div>
+                      <div className={w-2 h-2 sm:w-3 sm:h-3 ${item.color} rounded-full mr-2 flex-shrink-0}></div>
                       <span className="text-xs sm:text-sm text-gray-600 truncate">{item.label}</span>
                     </div>
                     <div className="flex items-center flex-shrink-0">
                       <span className="text-xs sm:text-sm font-semibold">{item.value}</span>
-                      <span className={`text-xs ml-1 ${item.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+                      <span className={text-xs ml-1 ${item.trend === 'up' ? 'text-green-500' : 'text-red-500'}}>
                         {item.trend === 'up' ? '↑' : '↓'}
                       </span>
                     </div>
@@ -199,7 +216,7 @@ const Dashboard = () => {
             <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 shadow-sm">
               <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Car Availability</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
-                <select 
+                <select
                   className="col-span-1 px-3 sm:px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                   value={selectedCar}
                   onChange={(e) => setSelectedCar(e.target.value)}
@@ -209,12 +226,12 @@ const Dashboard = () => {
                   <option>5665</option>
                   <option>1755</option>
                 </select>
-                <input 
+                <input
                   type="date"
                   className="col-span-1 px-3 sm:px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                   defaultValue="2022-11-20"
                 />
-                <select 
+                <select
                   className="col-span-1 px-3 sm:px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm"
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
@@ -268,7 +285,7 @@ const Dashboard = () => {
                           </td>
                           <td className="py-3 sm:py-4">
                             <div className="flex items-center gap-1 sm:gap-2">
-                              <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${car.statusColor}`}></div>
+                              <div className={w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${car.statusColor}}></div>
                               <span className="text-xs sm:text-sm">{car.status}</span>
                             </div>
                           </td>
@@ -315,21 +332,21 @@ const Dashboard = () => {
                       dataKey="month"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fontSize: window.innerWidth < 640 ? 10 : 12, fill: "#6b7280" }}
+                      tick={{ fontSize: windowWidth < 640 ? 10 : 12, fill: "#6b7280" }}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fontSize: window.innerWidth < 640 ? 10 : 12, fill: "#6b7280" }}
-                      tickFormatter={(value) => `$${value / 1000}k`}
+                      tick={{ fontSize: windowWidth < 640 ? 10 : 12, fill: "#6b7280" }}
+                      tickFormatter={(value) => $${value / 1000}k}
                     />
                     <Line
                       type="monotone"
                       dataKey="current"
                       stroke="#3b82f6"
-                      strokeWidth={window.innerWidth < 640 ? 2 : 3}
-                      dot={{ r: window.innerWidth < 640 ? 3 : 4, fill: "#3b82f6" }}
-                      activeDot={{ r: window.innerWidth < 640 ? 4 : 6, fill: "#3b82f6" }}
+                      strokeWidth={windowWidth < 640 ? 2 : 3}
+                      dot={{ r: windowWidth < 640 ? 3 : 4, fill: "#3b82f6" }}
+                      activeDot={{ r: windowWidth < 640 ? 4 : 6, fill: "#3b82f6" }}
                     />
                     <Line
                       type="monotone"
@@ -337,7 +354,7 @@ const Dashboard = () => {
                       stroke="#d1d5db"
                       strokeWidth={2}
                       strokeDasharray="5 5"
-                      dot={{ r: window.innerWidth < 640 ? 2 : 3, fill: "#d1d5db" }}
+                      dot={{ r: windowWidth < 640 ? 2 : 3, fill: "#d1d5db" }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
